@@ -1,39 +1,82 @@
-// On click for button
-function onClick() {
-    // Go to order link
-    window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSd9UaFyvd60zfd81FSM7KoHhLrE5fInKHG-jGCRyHSRgeWmRw/viewform?usp=sf_link';
+const canvas = document.getElementById('drawing-board');
+const toolbar = document.getElementById('toolbar');
+const ctx = canvas.getContext('2d');
+
+const canvasOffsetX = canvas.offsetLeft;
+const canvasOffsetY = canvas.offsetTop;
+
+
+canvas.width = window.innerWidth - canvasOffsetX;
+canvas.height = window.innerHeight - canvasOffsetY;
+
+let isPainting = false;
+let lineWidth = 5;
+let startX;
+let startY;
+let map = document.getElementById("onipng");
+
+
+toolbar.addEventListener('click', e => {
+    if (e.target.id === 'clear') {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+
+    if (e.target.id === 'oni') {
+      map = document.getElementById("onipng");
+      ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+    if (e.target.id === 'ahten') {
+      map = document.getElementById("ahtenpng");
+      ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+    if (e.target.id === 'aimi') {
+      map = document.getElementById("aimipng");
+      ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+    if (e.target.id === 'atlas') {
+      map = document.getElementById("atlaspng");
+      ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+    if (e.target.id === 'night') {
+      map = document.getElementById("nightpng");
+      ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+});
+
+toolbar.addEventListener('change', e => {
+    if(e.target.id === 'stroke') {
+        ctx.strokeStyle = e.target.value;
+    }
+
+    if(e.target.id === 'lineWidth') {
+        lineWidth = e.target.value;
+    }
+    
+});
+
+const draw = (e) => {
+    if(!isPainting) {
+        return;
+    }
+
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+
+    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
+    ctx.stroke();
 }
 
-function openTab(evt, name) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
+canvas.addEventListener('mousedown', (e) => {
+    isPainting = true;
+    startX = e.clientX;
+    startY = e.clientY;
+});
 
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
+canvas.addEventListener('mouseup', e => {
+    isPainting = false;
+    ctx.stroke();
+    ctx.beginPath();
+});
 
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(name).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-function openPage(pageName) {
-  var i, pagecontent;
-  pagecontent = document.getElementsByClassName("pagecontent");
-  for (i = 0; i < pagecontent.length; i++) {
-    pagecontent[i].style.display = "none";
-  }
-  document.getElementById(pageName).style.display = "block";
-}
-  
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultPage").click();
-document.getElementById("defaultTab").click();
+canvas.addEventListener('mousemove', draw);
