@@ -61,11 +61,12 @@ function newSticker(src) {
     img.src = src;
     img.classList.add('draggable');
     img.draggable = false;
-    document.getElementById('toolbar').appendChild(img);
+    img.style.position = 'absolute';
+    document.getElementById('center').appendChild(img);
 
     // Start dragging immediately
-    let offsetX = img.getBoundingClientRect().left;
-    let offsetY = img.getBoundingClientRect().top;
+    let offsetX = img.getBoundingClientRect().left + 45;
+    let offsetY = img.getBoundingClientRect().top + 45;
     
     function moveSticker(event) {
       img.style.left = (event.clientX - offsetX) + 'px';

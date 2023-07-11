@@ -15,16 +15,22 @@ h1 {
   -webkit-text-fill-color: transparent;
 }
 
+.center {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 0%;
+  width: 0%;
+  top: 50%;
+  left: 50%;
+  overflow: visible;
+}
+
 .container {
   height: 100%;
   display: flex;
 }
-
-/* .toolbar {
-  height: 100%;
-  position: relative;
-  overflow-y: scroll;
-} */
 
 #toolbar {
   display: flex;
