@@ -1,16 +1,21 @@
+$(function() {
+  $( ".draggable" ).draggable();
+});
+
 const canvas = document.getElementById('drawing-board');
 const toolbar = document.getElementById('toolbar');
 const ctx = canvas.getContext('2d');
 
 const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
+const characters = ['aimi', 'asher', 'atlas', 'drekar', 'dubu', 'era', 'estelle', 'finii', 'juliette', 'juno', 'kai', 'luna', 'octavia', 'rasmus', 'rune', 'vyce', 'x', 'zentaro'];
 
 
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
 
 let isPainting = false;
-let lineWidth = 5;
+let lineWidth = 4;
 let startX;
 let startY;
 let map = document.getElementById("onipng");
@@ -30,11 +35,11 @@ toolbar.addEventListener('click', e => {
       map = document.getElementById("ahtenpng");
       ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
     }
-    if (e.target.id === 'aimi') {
+    if (e.target.id === 'aimiapp') {
       map = document.getElementById("aimipng");
       ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
     }
-    if (e.target.id === 'atlas') {
+    if (e.target.id === 'atlaslab') {
       map = document.getElementById("atlaspng");
       ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
     }
@@ -43,6 +48,38 @@ toolbar.addEventListener('click', e => {
       ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
     }
 });
+
+toolbar.addEventListener('mousedown', e => {
+  if (characters.includes(e.target.id)) {
+    newSticker('images/' + e.target.id + '.png');
+  }
+  $( ".draggable" ).draggable();
+});
+
+function newSticker(src) {
+  let img = new Image(canvas.width/30, canvas.width/30);
+    img.src = src;
+    img.classList.add('draggable');
+    img.draggable = false;
+    document.getElementById('toolbar').appendChild(img);
+
+    // Start dragging immediately
+    let offsetX = img.getBoundingClientRect().left;
+    let offsetY = img.getBoundingClientRect().top;
+    
+    function moveSticker(event) {
+      img.style.left = (event.clientX - offsetX) + 'px';
+      img.style.top = (event.clientY - offsetY) + 'px';
+    }
+
+    function stopDragging() {
+      window.removeEventListener('mousemove', moveSticker);
+      window.removeEventListener('mouseup', stopDragging);
+    }
+
+    window.addEventListener('mousemove', moveSticker);
+    window.addEventListener('mouseup', stopDragging);
+}
 
 toolbar.addEventListener('change', e => {
     if(e.target.id === 'stroke') {
