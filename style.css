@@ -20,12 +20,18 @@ h1 {
   display: flex;
 }
 
+/* .toolbar {
+  height: 100%;
+  position: relative;
+  overflow-y: scroll;
+} */
+
 #toolbar {
   display: flex;
   flex-direction: column;
   padding: 5px;
-  width: 100px;
-  background-color: #202020;
+  width: 14%;
+  background-color: #1e1d30;
 }
 
 #toolbar * {
@@ -36,15 +42,22 @@ h1 {
   font-size: 12px;
 }
 
-#toolbar input {
-  width: 90%;
-}
-
 #toolbar button {
   background-color: #1565c0;
   border: none;
   border-radius: 5px;
   color:white;
   padding: 2px;
+}
+
+#toolbar input {
+  border-radius: 5px;
+  width: 90%;
+}
+
+.img-container {
+  height: 25%;
+  position: relative;
+  overflow-y: scroll;
 }
 
