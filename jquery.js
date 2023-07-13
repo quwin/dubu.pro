@@ -22,7 +22,6 @@ let map = document.getElementById("onipng");
 let barriers = true;
 let ally = true;
 
-
 toolbar.addEventListener('click', e => {
     if (e.target.id === 'clear') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -69,7 +68,6 @@ toolbar.addEventListener('mousedown', e => {
   if (characters.includes(e.target.id)) {
     newSticker('images/' + e.target.id + '.png');
   }
-  $( ".draggable" ).draggable();
 });
 
 function newSticker(src) {
@@ -93,13 +91,48 @@ function newSticker(src) {
     }
 
     function stopDragging() {
+      outOfBounds();
       window.removeEventListener('mousemove', moveSticker);
       window.removeEventListener('mouseup', stopDragging);
     }
 
     window.addEventListener('mousemove', moveSticker);
     window.addEventListener('mouseup', stopDragging);
+
+    $( ".draggable" ).draggable({
+      // idk why this doesn't work if I call outOfBounds() instead of repeating the function
+      stop: function() {
+        var stickerElements = document.getElementsByClassName('draggable');
+        for (var i = 0; i < stickerElements.length; i++) {
+          var x = stickerElements[i].getBoundingClientRect().right;
+          var y = stickerElements[i].getBoundingClientRect().top;
+          if (x < canvasOffsetX || x > (canvasOffsetX + canvas.offsetWidth) ||
+              y <canvasOffsetY || y > (canvas.offsetTop + canvas.offsetHeight)) {
+            stickerElements[i].remove();
+          }
+        }
+      }
+    });
 }
+
+function outOfBounds() {
+  // Get the current position of the sticker
+  var stickerElements = document.getElementsByClassName('draggable');
+
+  for (var i = 0; i < stickerElements.length; i++) {
+    // Get the current position of the sticker
+    var x = stickerElements[i].getBoundingClientRect().right;
+    var y = stickerElements[i].getBoundingClientRect().top;
+
+    // Check if the sticker is outside the canvas boundaries
+    if (x < canvasOffsetX || x > (canvasOffsetX + canvas.offsetWidth) ||
+        y <canvasOffsetY || y > (canvas.offsetTop + canvas.offsetHeight)) {
+      // Sticker is outside the canvas, remove it
+      stickerElements[i].remove();
+    }
+  }
+}
+
 
 toolbar.addEventListener('change', e => {
     if(e.target.id === 'stroke') {
