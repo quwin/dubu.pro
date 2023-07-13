@@ -12,17 +12,28 @@
     <div id="toolbar" class="toolbar" >
           <h1>Draw</h1>
           <label for="stroke">Stroke</label>
-          <input id="stroke" name='stroke' type="color">
+          <input id="stroke" name='stroke' type="color" style="min-height: 3%">
           <label for="lineWidth">Line Width</label>
           <input id="lineWidth" name='lineWidth' type="number" value="5">
           <button id="clear">Clear Lines</button>
           <h1>Maps</h1>
-          <button id="ahten">Ahten City</button>
+          <p> Barriers</p>
+          <label class="switch" >
+            <input type="checkbox" id="barriers" checked>
+            <span class="slider"></span>
+          </label>
+          <input type="image" id="ahten" src="images/ahtencitybutton.png" draggable="false" style="width:100%"/>   
           <input type="image" id="aimiapp" src="images/Aimisappbutton.png" draggable="false" style="width:100%"/>
           <input type="image" id="atlaslab" src="images/atlaslabbutton.png" draggable="false" style="width:100%"/>
+          <input type="image" id="demon" src="images/demondaisbutton.png" draggable="false" style="width:100%"/>
           <input type="image" id="night" src="images/nightmarketbutton.png" draggable="false" style="width:100%"/>
           <input class="image-button" type="image" id="oni" src="images/onivillagebutton.png" draggable="false" style="width:100%"/>
           <h1>Strikers</h1>
+          <p>Ally</p>
+          <label class="switch">
+            <input type="checkbox" id="ally" checked>
+            <span class="slider"></span>
+          </label>
           <div class="img-container">
             <input type="image" id="atlas" src="images/atlas.png" draggable="false" style="width:45px;height:45px"/>
             <input type="image" id="luna" src="images/luna.png" draggable="false" style="width:45px;height:45px"/>
@@ -38,24 +49,28 @@
             <input type="image" id="aimi" src="images/aimi.png" draggable="false" style="width:45px;height:45px"/>
             <input type="image" id="finii" src="images/finii.png" draggable="false" style="width:45px;height:45px"/>
             <input type="image" id="rasmus" src="images/rasmus.png" draggable="false" style="width:45px;height:45px"/>
+            <input type="image" id="vyce" src="images/vyce.png" draggable="false" style="width:45px;height:45px"/>
             <input type="image" id="rune" src="images/rune.png" draggable="false" style="width:45px;height:45px"/>
             <input type="image" id="era" src="images/era.png" draggable="false" style="width:45px;height:45px"/>
             <input type="image" id="zentaro" src="images/zentaro.png" draggable="false" style="width:45px;height:45px"/>
-          </div>
-          <div id="center" class="center"> 
-    
           </div>
       </div>
       <div class="drawing-board">
           <canvas id="drawing-board">
             <img id="onipng" src = "images/Oni Village.png">
+            <img id="demonpng" src = "images/Demon_Dais.png">
             <img id="nightpng" src = "images/Night Market.png">
             <img id="ahtenpng" src = "images/Ahten City.png">
+            <img id="ahtenleft" src = "images/ahten_left.png">
+            <img id="ahtenright" src = "images/ahten_right.png">
             <img id="aimipng" src = "images/Ai.Mi's App.png">
             <img id="atlaspng" src = "images/Atlas' Lab.png">
           </canvas>
       </div>
   </section>
+  <div id="center" class="center"> 
+    
+  </div>
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script src='jquery.js'></script>

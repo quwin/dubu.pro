@@ -19,12 +19,20 @@ let lineWidth = 4;
 let startX;
 let startY;
 let map = document.getElementById("onipng");
+let barriers = true;
+let ally = true;
 
 
 toolbar.addEventListener('click', e => {
     if (e.target.id === 'clear') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+    if (e.target.id === 'barriers') {
+      barriers = !barriers;
+    }
+    if (e.target.id === 'ally') {
+      ally = !ally;
     }
 
     if (e.target.id === 'oni') {
@@ -34,6 +42,10 @@ toolbar.addEventListener('click', e => {
     if (e.target.id === 'ahten') {
       map = document.getElementById("ahtenpng");
       ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+      if (!barriers) {
+        ctx.drawImage(document.getElementById("ahtenleft"),0,0,canvas.width/5, canvas.width*9/16);
+        ctx.drawImage(document.getElementById("ahtenright"),canvas.width*4/5,0,canvas.width/5, canvas.width*9/16);
+      }
     }
     if (e.target.id === 'aimiapp') {
       map = document.getElementById("aimipng");
@@ -45,6 +57,10 @@ toolbar.addEventListener('click', e => {
     }
     if (e.target.id === 'night') {
       map = document.getElementById("nightpng");
+      ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
+    }
+    if (e.target.id === 'demon') {
+      map = document.getElementById("demonpng");
       ctx.drawImage(map,0,0,canvas.width, canvas.width*9/16);
     }
 });
@@ -62,6 +78,9 @@ function newSticker(src) {
     img.classList.add('draggable');
     img.draggable = false;
     img.style.position = 'absolute';
+    if (!ally) {
+      img.style.border = '2px solid #cb4465'
+    }
     document.getElementById('center').appendChild(img);
 
     // Start dragging immediately

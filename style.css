@@ -27,17 +27,26 @@ h1 {
   overflow: visible;
 }
 
+.center img {
+  border: 2px solid #00ff00;
+  border-radius: 5%;
+}
+
 .container {
   height: 100%;
   display: flex;
+  position: absolute;
 }
 
-#toolbar {
+.toolbar {
   display: flex;
   flex-direction: column;
   padding: 5px;
   width: 14%;
   background-color: #1e1d30;
+  overflow-y: scroll;
+  overflow-x: visible;
+  position: relative;
 }
 
 #toolbar * {
@@ -63,7 +72,64 @@ h1 {
 
 .img-container {
   height: 25%;
+  width: 100%;
   position: relative;
-  overflow-y: scroll;
 }
 
+.img-container input {
+  width: 4px;
+  height: 45px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 7px;
+  width: 7px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
