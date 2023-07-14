@@ -8,13 +8,13 @@
 <title>Omega Strikers Maps</title>
 </head>
 <body>
-  <section class="container">
+  <section class="container" style="position: absolute; width: 100%">
     <div id="toolbar" class="toolbar" >
           <h1>Draw</h1>
           <label for="stroke">Stroke</label>
           <input id="stroke" name='stroke' type="color" style="min-height: 3%">
           <label for="lineWidth">Line Width</label>
-          <input id="lineWidth" name='lineWidth' type="number" value="5">
+          <input id="lineWidth" name='lineWidth' type="number" value="3">
           <button id="clear">Clear Lines</button>
           <h1>Maps</h1>
           <p> Barriers</p>
@@ -55,18 +55,8 @@
             <input type="image" id="zentaro" src="images/zentaro.png" draggable="false" style="width:45px;height:45px"/>
           </div>
       </div>
-      <div class="drawing-board">
-          <canvas id="drawing-board">
-            <img id="onipng" src = "images/Oni Village.png">
-            <img id="demonpng" src = "images/Demon_Dais.png">
-            <img id="nightpng" src = "images/Night Market.png">
-            <img id="ahtenpng" src = "images/Ahten City.png">
-            <img id="ahtenleft" src = "images/ahten_left.png">
-            <img id="ahtenright" src = "images/ahten_right.png">
-            <img id="aimipng" src = "images/Ai.Mi's App.png">
-            <img id="atlaspng" src = "images/Atlas' Lab.png">
-          </canvas>
-      </div>
+      <img id="onipng" class="selectDisable" src = "images/Oni Village.png" style="position: absolute; width: 85.6%; left: 14.4%">
+      <canvas id="drawing-board" style="position: relative; width: 85.6%" > </canvas>
   </section>
   <div id="center" class="center"> 
     
