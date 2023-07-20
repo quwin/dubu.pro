@@ -1,7 +1,3 @@
-$(function() {
-  $( ".draggable" ).draggable();
-});
-
 const canvas = document.getElementById('drawing-board');
 const background = document.getElementById('background');
 const toolbar = document.getElementById('toolbar');
@@ -12,7 +8,8 @@ const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 const characters = ['aimi', 'asher', 'atlas', 'drekar', 'dubu', 'era', 'estelle', 'finii', 'juliette', 'juno', 'kai', 'luna', 'octavia', 'rasmus', 'rune', 'vyce', 'x', 'zentaro'];
 const maps = ['images/Ai.Mis App.png', 'images/Ahten City.png', 'images/Demon Dais.png', 'images/Atlas Lab.png', 'images/Oni Village.png', 'images/Night Market.png'];
-
+const radioButtons = document.querySelectorAll('input[name="tool"]');
+var originalImageData;
 
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
@@ -29,6 +26,8 @@ let barriersrighttop = true;
 let barriersleftbot = true;
 let barriersrightbot = true;
 let ally = true;
+let tool = 'draw';
+let color;
 
 var img = new Image();
 img.onload = function() {
@@ -222,10 +221,9 @@ function outOfBounds() {
   }
 }
 
-
 toolbar.addEventListener('change', e => {
     if(e.target.id === 'stroke') {
-        ctx.strokeStyle = e.target.value;
+        color = e.target.value;
     }
 
     if(e.target.id === 'lineWidth') {
@@ -238,24 +236,39 @@ const draw = (e) => {
     if(!isPainting) {
         return;
     }
+    // check which tool is selected
+    for (const radioButton of radioButtons) {
+      if (radioButton.checked) {
+        tool = radioButton.value;
+        break;
+      }
+    };
 
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
 
+    if (tool === 'erase') {
+      ctx.lineWidth = lineWidth * 5;
+      ctx.globalCompositeOperation = 'destination-out';
+    } else {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.globalCompositeOperation = 'source-over';
+    }
     ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
     ctx.stroke();
 }
 
 canvas.addEventListener('mousedown', (e) => {
-    isPainting = true;
-    startX = e.clientX;
-    startY = e.clientY;
+  isPainting = true;
+  startX = e.clientX;
+  startY = e.clientY;
 });
 
 canvas.addEventListener('mouseup', e => {
-    isPainting = false;
-    ctx.stroke();
-    ctx.beginPath();
+  isPainting = false;
+  ctx.stroke();
+  ctx.beginPath();
 });
 
 canvas.addEventListener('mousemove', draw);
