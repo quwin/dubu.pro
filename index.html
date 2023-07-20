@@ -17,17 +17,36 @@
           <input id="lineWidth" name='lineWidth' type="number" value="3">
           <button id="clear">Clear Lines</button>
           <h1>Maps</h1>
-          <p> Barriers</p>
-          <label class="switch" >
-            <input type="checkbox" id="barriers" checked>
-            <span class="slider"></span>
-          </label>
+          <p style="text-align: center;"> Barriers</p>
+          <br>
+          <div style="width: 100%; display:flex; justify-content: center;">
+            <label class="switch" style="float: left">
+              <input type="checkbox" id="barrierslefttop" checked>
+              <span class="slider"></span>
+            </label>
+            &nbsp;
+            <label class="switch" style="float: right">
+              <input type="checkbox" id="barriersrighttop" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div id="2ndswitches" style="width: 100%; display:flex; justify-content: center;">
+            <label class="switch" style="float: left">
+              <input type="checkbox" id="barriersleftbot" checked>
+              <span class="slider"></span>
+            </label>
+            &nbsp;
+            <label class="switch" style="float: right">
+              <input type="checkbox" id="barriersrightbot" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
           <input type="image" id="ahten" src="images/ahtencitybutton.png" draggable="false" style="width:100%"/>   
           <input type="image" id="aimiapp" src="images/Aimisappbutton.png" draggable="false" style="width:100%"/>
           <input type="image" id="atlaslab" src="images/atlaslabbutton.png" draggable="false" style="width:100%"/>
           <input type="image" id="demon" src="images/demondaisbutton.png" draggable="false" style="width:100%"/>
           <input type="image" id="night" src="images/nightmarketbutton.png" draggable="false" style="width:100%"/>
-          <input class="image-button" type="image" id="oni" src="images/onivillagebutton.png" draggable="false" style="width:100%"/>
+          <input type="image" id="oni" src="images/onivillagebutton.png" draggable="false" style="width:100%"/>
           <h1>Strikers</h1>
           <p>Ally</p>
           <label class="switch">
@@ -55,7 +74,7 @@
             <input type="image" id="zentaro" src="images/zentaro.png" draggable="false" style="width:45px;height:45px"/>
           </div>
       </div>
-      <img id="onipng" class="selectDisable" src = "images/Oni Village.png" style="position: absolute; width: 85.6%; left: 14.4%">
+      <canvas id="background" style="position: absolute; width: 85.6%; left: 14.4%"> </canvas>
       <canvas id="drawing-board" style="position: relative; width: 85.6%" > </canvas>
   </section>
   <div id="center" class="center"> 
