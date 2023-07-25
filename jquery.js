@@ -6,7 +6,7 @@ const backgroundCtx = background.getContext('2d');
 
 const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
-const characters = ['aimi', 'asher', 'atlas', 'drekar', 'dubu', 'era', 'estelle', 'finii', 'juliette', 'juno', 'kai', 'luna', 'octavia', 'rasmus', 'rune', 'vyce', 'x', 'zentaro'];
+const characters = ['aimi', 'asher', 'atlas', 'drekar', 'dubu', 'era', 'estelle', 'finii', 'juliette', 'juno', 'kai', 'luna', 'octavia', 'rasmus', 'rune', 'vyce', 'x', 'zentaro', 'core'];
 const maps = ['images/Ai.Mis App.png', 'images/Ahten City.png', 'images/Demon Dais.png', 'images/Atlas Lab.png', 'images/Oni Village.png', 'images/Night Market.png'];
 const radioButtons = document.querySelectorAll('input[name="tool"]');
 var originalImageData;
@@ -166,6 +166,9 @@ function newSticker(src) {
     img.classList.add('draggable');
     img.draggable = false;
     img.style.position = 'absolute';
+    if (img.src === 'core') {
+      img.style.borderRadius = '50%';
+    };
     if (!ally) {
       img.style.border = '2px solid #cb4465'
     }
@@ -323,14 +326,18 @@ const draw = (e) => {
   }
 }
 
+var button;
+
 canvas.addEventListener('mousedown', (e) => {
   isPainting = true;
+  button = e.button;
   startX = e.clientX - canvasOffsetX;
   startY = e.clientY - canvasOffsetY;
 });
 
 canvas.addEventListener('mouseup', e => {
   isPainting = false;
+  button = 0;
   if (line) {
     line = false;
     cUndo();
@@ -340,22 +347,22 @@ canvas.addEventListener('mouseup', e => {
   ctx.beginPath();
   cPush();
   if (altDraw) {
+    altDraw = false;
     cUndo();
   }
 });
 
-canvas.addEventListener('mousemove', (e) => {
-  switch (e.button) {
+canvas.addEventListener('mousemove', e =>  {
+  switch (button) {
     case 0:
       draw(e);
-      break;
-    case 1:
       break;
     case 2:
       altDraw = true;
       draw(e);
       break;
     default:
+      isPainting = false;
       break;
   }
 });
