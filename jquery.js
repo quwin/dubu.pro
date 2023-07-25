@@ -28,6 +28,7 @@ let barriersrightbot = true;
 let ally = true;
 let color;
 let altDraw = false;
+let line = false;
 
 var img = new Image();
 img.onload = function() {
@@ -283,8 +284,6 @@ toolbar.addEventListener('change', e => {
 });
 
 const draw = (e) => {
-  let tool = 'draw';
-
   if(!isPainting) {
       return;
   }
@@ -307,19 +306,37 @@ const draw = (e) => {
     ctx.lineWidth = lineWidth;
     ctx.globalCompositeOperation = 'source-over';
   }
-  ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
-  ctx.stroke();
+  if (tool === 'line') {
+    if (!line) {
+      line = true;
+    } else {
+      cUndo();
+    }
+    ctx.moveTo(startX , startY)
+    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
+    ctx.stroke();
+    ctx.beginPath();
+    cPush();
+  } else {
+    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
+    ctx.stroke();
+  }
 }
 
 canvas.addEventListener('mousedown', (e) => {
   isPainting = true;
-  startX = e.clientX;
-  startY = e.clientY;
+  startX = e.clientX - canvasOffsetX;
+  startY = e.clientY - canvasOffsetY;
 });
 
 canvas.addEventListener('mouseup', e => {
   isPainting = false;
-  ctx.stroke();
+  if (line) {
+    line = false;
+    cUndo();
+    cRedo();
+    return;
+  }
   ctx.beginPath();
   cPush();
   if (altDraw) {
