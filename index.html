@@ -16,9 +16,13 @@
           <label for="lineWidth">Line Width</label>
           <input id="lineWidth" name='lineWidth' type="number" value="3">
           <button id="clear">Clear Lines</button>
-          <input type="radio" name="tool" value="draw" checked style="width: 100%"> Pen
-          <input type="radio" name="tool" value="erase" style="width: 100%"> Eraser
-
+          <div>
+            <input type="radio" name="tool" value="draw" checked style="width: 100%"> Pen
+            <input type="radio" name="tool" value="erase" style="width: 100%"> Eraser
+            <br>
+            <button id="undo" onclick="cUndo()">Undo</button>
+            <button id="redo" onclick="cRedo()">Redo</button>
+          </div>
           <h1>Maps</h1>
           <p style="text-align: center;"> Barriers</p>
           <br>

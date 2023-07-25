@@ -26,7 +26,6 @@ let barriersrighttop = true;
 let barriersleftbot = true;
 let barriersrightbot = true;
 let ally = true;
-let tool = 'draw';
 let color;
 
 var img = new Image();
@@ -221,42 +220,93 @@ function outOfBounds() {
   }
 }
 
+var cPushArray = new Array();
+var cStep = -1;
+
+function cPush() {
+  cStep++;
+  if (cStep < cPushArray.length) { 
+    cPushArray.length = cStep; 
+  }
+  cPushArray.push(document.getElementById('drawing-board').toDataURL());
+}
+
+function cUndo() {
+  if (cStep > 0) {
+    cStep--;
+    var canvasPic = new Image();
+    canvasPic.src = cPushArray[cStep];
+    canvasPic.onload = function () { 
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(canvasPic, 0, 0); 
+    }
+  }
+}
+
+function cRedo() {
+  if (cStep < cPushArray.length-1) {
+    cStep++;
+    var canvasPic = new Image();
+    canvasPic.src = cPushArray[cStep];
+    canvasPic.onload = function () { 
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(canvasPic, 0, 0); 
+    }
+  }
+}
+
+document.addEventListener('keydown', function (e) {
+  if (e.ctrlKey || e.metaKey) {
+    if (e.code == 'KeyZ') {
+      cUndo();
+    }
+    if (e.code == 'KeyY') {
+      cRedo();
+    }
+  }
+  if (e.shiftKey && e.code == 'KeyZ') {
+    cRedo();
+  }
+});
+
 toolbar.addEventListener('change', e => {
     if(e.target.id === 'stroke') {
-        color = e.target.value;
+      color = e.target.value;
     }
 
     if(e.target.id === 'lineWidth') {
-        lineWidth = e.target.value;
+      lineWidth = e.target.value;
     }
     
 });
 
 const draw = (e) => {
-    if(!isPainting) {
-        return;
-    }
-    // check which tool is selected
-    for (const radioButton of radioButtons) {
-      if (radioButton.checked) {
-        tool = radioButton.value;
-        break;
-      }
-    };
+  let tool = 'draw';
 
+  if(!isPainting) {
+      return;
+  }
+  // check which tool is selected
+  for (const radioButton of radioButtons) {
+    if (radioButton.checked) {
+      tool = radioButton.value;
+      break;
+    }
+  };
+
+  ctx.lineWidth = lineWidth;
+  ctx.lineCap = 'round';
+
+  if (tool === 'erase') {
+    ctx.lineWidth = lineWidth * 5;
+    ctx.globalCompositeOperation = 'destination-out';
+  } else {
+    ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;
-    ctx.lineCap = 'round';
-
-    if (tool === 'erase') {
-      ctx.lineWidth = lineWidth * 5;
-      ctx.globalCompositeOperation = 'destination-out';
-    } else {
-      ctx.strokeStyle = color;
-      ctx.lineWidth = lineWidth;
-      ctx.globalCompositeOperation = 'source-over';
-    }
-    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
-    ctx.stroke();
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
+  ctx.stroke();
 }
 
 canvas.addEventListener('mousedown', (e) => {
@@ -269,6 +319,8 @@ canvas.addEventListener('mouseup', e => {
   isPainting = false;
   ctx.stroke();
   ctx.beginPath();
+  cPush();
 });
 
 canvas.addEventListener('mousemove', draw);
+cPush();
