@@ -27,6 +27,7 @@ let barriersleftbot = true;
 let barriersrightbot = true;
 let ally = true;
 let color;
+let altDraw = false;
 
 var img = new Image();
 img.onload = function() {
@@ -38,6 +39,7 @@ img.src = maps[mapindex];
 toolbar.addEventListener('click', e => {
     if (e.target.id === 'clear') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        cPush();
     }
     if (e.target.id === 'barrierslefttop') {
       barrierslefttop = !barrierslefttop;
@@ -256,16 +258,16 @@ function cRedo() {
 }
 
 document.addEventListener('keydown', function (e) {
-  if (e.ctrlKey || e.metaKey) {
+  if (e.shiftKey && e.code == 'KeyZ') {
+    cRedo();
+  }
+  else if (e.ctrlKey || e.metaKey) {
     if (e.code == 'KeyZ') {
       cUndo();
     }
     if (e.code == 'KeyY') {
       cRedo();
     }
-  }
-  if (e.shiftKey && e.code == 'KeyZ') {
-    cRedo();
   }
 });
 
@@ -320,7 +322,24 @@ canvas.addEventListener('mouseup', e => {
   ctx.stroke();
   ctx.beginPath();
   cPush();
+  if (altDraw) {
+    cUndo();
+  }
 });
 
-canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mousemove', (e) => {
+  switch (e.button) {
+    case 0:
+      draw(e);
+      break;
+    case 1:
+      break;
+    case 2:
+      altDraw = true;
+      draw(e);
+      break;
+    default:
+      break;
+  }
+});
 cPush();
