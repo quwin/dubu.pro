@@ -6,7 +6,7 @@ const backgroundCtx = background.getContext('2d');
 
 const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
-const characters = ['aimi', 'asher', 'atlas', 'drekar', 'dubu', 'era', 'estelle', 'finii', 'juliette', 'juno', 'kai', 'luna', 'octavia', 'rasmus', 'rune', 'vyce', 'x', 'zentaro', 'core'];
+const characters = ['dubu', 'asher', 'atlas', 'x', 'aimi', 'drekar', 'era', 'estelle', 'finii', 'juliette', 'juno', 'kai', 'luna', 'octavia', 'rasmus', 'rune', 'vyce', 'zentaro', 'core'];
 const maps = ['images/Ai.Mis App.png', 'images/Ahten City.png', 'images/Demon Dais.png', 'images/Atlas Lab.png', 'images/Oni Village.png', 'images/Night Market.png'];
 const radioButtons = document.querySelectorAll('input[name="tool"]');
 var originalImageData;
@@ -156,17 +156,22 @@ function clipImgSide(sx, sy, swidth, sheight, x, y,  width, height) {
 
 toolbar.addEventListener('mousedown', e => {
   if (characters.includes(e.target.id)) {
-    newSticker('images/' + e.target.id + '.png');
+    newSticker(e.target.id);
   }
 });
 
 function newSticker(src) {
-  var width = canvas.width/30;
-  if (src === 'images/core.png') {
-    width = canvas.width/40
-  };
+  // Standard Char size ratio
+  var width = canvas.width/27.35;
+  if (src === 'dubu') {
+    // Dubu size ratio
+    width = canvas.width/20.31;
+  } else if (characters.indexOf(src) < 4) {
+    // Large char size
+    width = canvas.width/21.88;
+  }
   let img = new Image(width, width);
-    img.src = src;
+    img.src = 'images/' + src + '.png';
     img.classList.add('draggable');
     img.draggable = false;
     img.style.position = 'absolute';
