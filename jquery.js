@@ -161,14 +161,16 @@ toolbar.addEventListener('mousedown', e => {
 });
 
 function newSticker(src) {
-  let img = new Image(canvas.width/30, canvas.width/30);
+  var width = canvas.width/30;
+  if (src === 'images/core.png') {
+    width = canvas.width/40
+  };
+  let img = new Image(width, width);
     img.src = src;
     img.classList.add('draggable');
     img.draggable = false;
     img.style.position = 'absolute';
-    if (img.src === 'core') {
-      img.style.borderRadius = '50%';
-    };
+    img.style.borderRadius = '50%';
     if (!ally) {
       img.style.border = '2px solid #cb4465'
     }
